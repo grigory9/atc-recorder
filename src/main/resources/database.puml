@@ -1,0 +1,121 @@
+@startuml
+
+hide circle
+skinparam linetype ortho
+
+!define primary_key(x) [pk] <b>x</b>
+!define foreign_key(x) [fk] <b>x</b>
+!define unique_key(x) [uk] <b>x</b>
+!define type(x) <color:#8c8e91>x</color>
+
+class user_id {
+}
+
+class organization {
+    primary_key(id) : type(serial)
+    description : type(text)
+    created_by_user_id : type(int)
+}
+
+class organization_unit {
+    primary_key(id) : type(serial)
+    description : type(text)
+    name : type(varchar)
+    address : type(varchar)
+    coordinates: type(point)
+    phones : type(numeric)
+    urls : type(text)
+    social_links : type(text)
+    foreign_key(organization_id) : type(int)
+    photos_urls : type(text)
+}
+
+class organization_unit_schedule {
+    organization_info_id : type(int)
+    day_of_week : type(day_of_week_type)
+    work_from : type(time)
+    work_to : type(time)
+    break_from : type(time)
+    break_to : type(time)
+}
+
+class organization_review {
+    primary_key(id) : type(serial)
+    user_id : type(int)
+    creation_date : type(timestamp)
+    content: type(text)
+    rating : type(star_rating_type)
+    foreign_key(organization_unit_id) : type(int)
+}
+
+class review_reaction {
+    user_id : type(int)
+    foreign_key(organization_review) : type(int)
+    type : type(review_action_type)
+}
+
+class service {
+    primary_key(id) : type(serial)
+    name : type(text)
+    category_id : type(category_type)
+    foreign_key(organization_unit_id) : type(int)
+    tags  : type(text)
+    price : type(int)
+    time?? : int
+}
+
+class master {
+    primary_key(id) : type(serial)
+    name : type(text)
+    title : type(text)
+    foreign_key(organization_unit_id) : type(int)
+}
+
+class master_service {
+   foreign_key(master_id) : type(int)
+   foreign_key(service_id) : type(int)
+   rating : float
+}
+
+class portfolio {
+    foreign_key(master_id) : type(int)
+    photos_urls: type(text)
+    description: type(text)
+}
+
+class master_schedule {
+    day_of_week: type(day_of_week_type)
+    foreign_key(master_id) : type(int)
+    work_from : type(time)
+    work_to : type(time)
+    period : int (15 min)
+}
+
+
+'organization -[hidden]down- organization_unitf
+'schedule -[hidden]left- organization_unit
+'organization_review -[hidden]up- schedule
+user_id -[hidden]right- organization
+service -[hidden]right- master
+master -[hidden]right- master_schedule
+
+' relations
+organization ||..o{ organization_unit
+organization --> user_id
+
+organization_unit ||..o{ organization_unit_schedule
+organization_unit ||..o{ organization_review
+organization_unit ||..o{ service
+organization_unit ||..-o{ master
+
+organization_review ||..o{ review_reaction
+organization_review --> user_id
+
+review_reaction --> user_id
+
+service ||..-o{ master_service
+
+master ||..-o| portfolio
+master ||..-o{ master_service
+
+@enduml

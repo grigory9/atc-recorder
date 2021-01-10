@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: recorder-backend-core
+  datasource:
+    url: jdbc:postgresql://localhost/recorder
+    username: recorder
+    password: recorder
+    hikari:
+      schema: recorder
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    schemas: recorder
+springdoc:
+  swagger-ui:
+    path: /swag
+
+server:
+  port: 9999
