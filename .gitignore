@@ -24,3 +24,10 @@ hs_err_pid*
 
 # Build artifacts
 build/*
+
+# JDK folder
+jdk*/
+
+# IDEA And gradle
+.idea/*
+.gradle/*
