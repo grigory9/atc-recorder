@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dec9c1b0-bf59-4f9b-a705-68028795ef34",
+		"_postman_id": "37fe13d7-b420-4fe9-ba0a-d161b566fc32",
 		"name": "Recorder",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,45 +9,90 @@
 			"name": "StartStop",
 			"item": [
 				{
-					"name": "post startRecord",
+					"name": "startRecord",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:9999/record/start",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"record",
+								"start"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "post stopRecord",
+					"name": "stopRecord",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:9999/record/stop",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"record",
+								"stop"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "post stopPlayback",
+					"name": "stopPlayback",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:9999/playback/stop",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"playback",
+								"stop"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "post startPlayback",
+					"name": "startPlayback",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"startDate\": 1616333721\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:9999/playback/start",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"playback",
+								"start"
+							]
 						}
 					},
 					"response": []
@@ -58,21 +103,12 @@
 			"name": "Setup",
 			"item": [
 				{
-					"name": "post changeUdpRecordFolder",
+					"name": "udpAddresses",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"deviceName\": \"lo0\",\n    \"isPrimary\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:9999/configuration/device",
+							"raw": "http://localhost:9999/configuration/udp",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -80,36 +116,14 @@
 							"port": "9999",
 							"path": [
 								"configuration",
-								"device"
+								"udp"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "get udpAddresses",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get deviceList",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "post udpAddress",
+					"name": "udpAddress",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -138,7 +152,27 @@
 					"response": []
 				},
 				{
-					"name": "post setupDevice",
+					"name": "deviceList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9999/configuration/device",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"configuration",
+								"device"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "setupDevice",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -167,7 +201,39 @@
 					"response": []
 				},
 				{
-					"name": "get udpRecordFolder",
+					"name": "udpRecordFolder",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/configuration/device",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"configuration",
+								"device"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeUdpRecordFolder",
 					"request": {
 						"method": "POST",
 						"header": [],
