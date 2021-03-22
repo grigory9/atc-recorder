@@ -73,7 +73,7 @@ class RecorderUseCaseImpl(
             handler?.loop(
                 100,
             ) { packet: Packet ->
-                val udpPacket = UdpPacket(packet.rawData, Date())
+                val udpPacket = UdpPacket.create(packet, Date())
                 packetCatchHandler?.let { it(udpPacket) }
             }
         }

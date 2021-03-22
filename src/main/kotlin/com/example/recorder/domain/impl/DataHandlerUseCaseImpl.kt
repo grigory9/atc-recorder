@@ -56,7 +56,7 @@ class DataHandlerUseCaseImpl(
                 val bytesAndDate = it.split(" ")
                 val bytes = bytesAndDate[0].hexStringToByteArray()
                 val date = Date(bytesAndDate[1].toLong())
-                UdpPacket(bytes, date)
+                UdpPacket.create(bytes, date)
             }
 
     private fun makeFileName(date: Date): String {
