@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "37fe13d7-b420-4fe9-ba0a-d161b566fc32",
+		"_postman_id": "fb1937d0-1f75-4f59-8168-1143fece6bc3",
 		"name": "Recorder",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,12 +14,12 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9999/record/start",
+							"raw": "http://localhost:9998/record/start",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "9999",
+							"port": "9998",
 							"path": [
 								"record",
 								"start"
@@ -34,12 +34,10 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9999/record/stop",
-							"protocol": "http",
+							"raw": "{{localAddress}}/record/stop",
 							"host": [
-								"localhost"
+								"{{localAddress}}"
 							],
-							"port": "9999",
 							"path": [
 								"record",
 								"stop"
@@ -54,12 +52,10 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9999/playback/stop",
-							"protocol": "http",
+							"raw": "{{localAddress}}/playback/stop",
 							"host": [
-								"localhost"
+								"{{localAddress}}"
 							],
-							"port": "9999",
 							"path": [
 								"playback",
 								"stop"
@@ -83,12 +79,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9999/playback/start",
-							"protocol": "http",
+							"raw": "{{localAddress}}/playback/start",
 							"host": [
-								"localhost"
+								"{{localAddress}}"
 							],
-							"port": "9999",
 							"path": [
 								"playback",
 								"start"
@@ -100,168 +94,252 @@
 			]
 		},
 		{
-			"name": "Setup",
+			"name": "Settings",
 			"item": [
 				{
-					"name": "udpAddresses",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:9999/configuration/udp",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9999",
-							"path": [
-								"configuration",
-								"udp"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "udpAddress",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"listeningIp\": \"127.0.0.1\",\n    \"listeningPort\": 2325,\n    \"destinationIp\": \"127.0.0.1\",\n    \"destinationPort\": 2326\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "UDP",
+					"item": [
+						{
+							"name": "udpAddress",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"listeningIp\": \"127.0.0.1\",\n    \"listeningPort\": 2325,\n    \"destinationIp\": \"127.0.0.1\",\n    \"destinationPort\": 2326\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localAddress}}/configuration/udp",
+									"host": [
+										"{{localAddress}}"
+									],
+									"path": [
+										"configuration",
+										"udp"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:9999/configuration/udp",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9999",
-							"path": [
-								"configuration",
-								"udp"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deviceList",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:9999/configuration/device",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9999",
-							"path": [
-								"configuration",
-								"device"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "setupDevice",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"deviceName\": \"lo0\",\n    \"isPrimary\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+						{
+							"name": "udpAddress",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"listeningIp\": \"127.0.0.1\",\n    \"listeningPort\": 2329,\n    \"destinationIp\": \"127.0.0.1\",\n    \"destinationPort\": 2330\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localAddress}}/configuration/udp",
+									"host": [
+										"{{localAddress}}"
+									],
+									"path": [
+										"configuration",
+										"udp"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:9999/configuration/device",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9999",
-							"path": [
-								"configuration",
-								"device"
-							]
+						{
+							"name": "udpAddresses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localAddress}}/configuration/udp",
+									"host": [
+										"{{localAddress}}"
+									],
+									"path": [
+										"configuration",
+										"udp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "udpAddress",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "4",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localAddress}}/configuration/udp",
+									"host": [
+										"{{localAddress}}"
+									],
+									"path": [
+										"configuration",
+										"udp"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "udpRecordFolder",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Record Folder",
+					"item": [
+						{
+							"name": "udpRecordFolder",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localAddress}}/configuration/device",
+									"host": [
+										"{{localAddress}}"
+									],
+									"path": [
+										"configuration",
+										"device"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:9999/configuration/device",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9999",
-							"path": [
-								"configuration",
-								"device"
-							]
+						{
+							"name": "changeUdpRecordFolder",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"folder\": \"/Users/userauto/Desktop/ATCRecorder\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localAddress}}/configuration/udp/recordFolder",
+									"host": [
+										"{{localAddress}}"
+									],
+									"path": [
+										"configuration",
+										"udp",
+										"recordFolder"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "changeUdpRecordFolder",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"deviceName\": \"lo0\",\n    \"isPrimary\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Device",
+					"item": [
+						{
+							"name": "deviceList",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localAddress}}/configuration/device",
+									"host": [
+										"{{localAddress}}"
+									],
+									"path": [
+										"configuration",
+										"device"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:9999/configuration/device",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9999",
-							"path": [
-								"configuration",
-								"device"
-							]
+						{
+							"name": "setupDevice",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"deviceName\": \"lo0\",\n    \"isPrimary\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localAddress}}/configuration/device",
+									"host": [
+										"{{localAddress}}"
+									],
+									"path": [
+										"configuration",
+										"device"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localAddress",
+			"value": "localhost:9998"
 		}
 	]
 }
