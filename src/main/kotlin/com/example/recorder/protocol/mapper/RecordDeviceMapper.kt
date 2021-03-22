@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 class UdpRecordAddressMapper {
 
     fun map(dto: UdpRecordAddressDto) = UdpRecordAddress(
+        id = dto.id,
         listeningIp = dto.listeningIp,
         listeningPort = dto.listeningPort,
         destinationIp = dto.destinationIp,

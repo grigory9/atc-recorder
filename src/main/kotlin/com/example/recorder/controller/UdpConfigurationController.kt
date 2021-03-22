@@ -30,12 +30,42 @@ class UdpConfigurationController(
         value = [
             ApiResponse(
                 responseCode = "200", description = "UDP address for record added",
-                content = []
+                content = [Content(schema = Schema(implementation = UdpRecordAddressDto::class))]
             )
         ]
     )
     //endregion
     fun addUdp(@RequestBody dto: UdpRecordAddressDto) = service.addUdpRecordAddress(addressMapper.map(dto))
+
+    @PatchMapping()
+    @ResponseStatus(HttpStatus.OK)
+    //region Swagger
+    @Operation(summary = "Patch UDP address", description = "Patch UDP address for record", tags = ["udp"])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "UDP address for record patched",
+                content = [Content(schema = Schema(implementation = UdpRecordAddressDto::class))]
+            )
+        ]
+    )
+    //endregion
+    fun patchUdp(@RequestBody dto: UdpRecordAddressDto) = service.patchUdpRecordAddress(addressMapper.map(dto))
+
+    @DeleteMapping()
+    @ResponseStatus(HttpStatus.OK)
+    //region Swagger
+    @Operation(summary = "Delete UDP address", description = "Delete UDP address for record", tags = ["udp"])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "UDP address for record deleted",
+                content = []
+            )
+        ]
+    )
+    //endregion
+    fun deleteUdp(@RequestBody dto: Long) = service.deleteUdpRecordAddress(dto)
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)

@@ -6,7 +6,11 @@ import com.example.recorder.model.UdpRecordFolder
 
 interface ConfigurationService {
 
-    fun addUdpRecordAddress(udpRecordAddress: UdpRecordAddress)
+    fun addUdpRecordAddress(udpRecordAddress: UdpRecordAddress): UdpRecordAddress
+
+    fun patchUdpRecordAddress(udpRecordAddress: UdpRecordAddress): UdpRecordAddress
+
+    fun deleteUdpRecordAddress(id: Long)
 
     fun findAllUdpRecordAddress(): List<UdpRecordAddress>
 

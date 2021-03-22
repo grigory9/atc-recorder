@@ -1,7 +1,5 @@
 package com.example.recorder.utils.extensions
 
-import com.example.recorder.utils.extensions.HEX_CHARS
-
 fun ByteArray.toHex() : String{
     val result = StringBuffer()
 

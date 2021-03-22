@@ -1,8 +1,6 @@
 package com.example.recorder.model
 
-import org.pcap4j.packet.EthernetPacket
-import org.pcap4j.packet.IpV4Packet
-import org.pcap4j.packet.Packet
+import org.pcap4j.packet.*
 import java.lang.Exception
 import java.util.*
 import org.pcap4j.packet.UdpPacket as pcapUdpPacket
@@ -17,9 +15,19 @@ data class UdpPacket(
     val date: Date
 ) {
     companion object Builder {
-        fun create(byteArray: ByteArray, date: Date): UdpPacket =
-            create(EthernetPacket.newPacket(byteArray, 0, byteArray.size),
-            date)
+        fun create(byteArray: ByteArray, date: Date): UdpPacket {
+            val ethernetPacket = EthernetPacket.newPacket(byteArray, 0, byteArray.size)
+            if(ethernetPacket.payload is IpV4Packet) {
+                return create(ethernetPacket, date)
+            }
+
+            val bsdLoopPacket = BsdLoopbackPacket.newPacket(byteArray, 0, byteArray.size)
+            if(bsdLoopPacket.payload is IpV4Packet) {
+                return create(bsdLoopPacket, date)
+            }
+
+            throw Exception("Cannot define packet type")
+        }
 
         fun create(packet: Packet, date: Date): UdpPacket {
             val ipv4 = packet.payload

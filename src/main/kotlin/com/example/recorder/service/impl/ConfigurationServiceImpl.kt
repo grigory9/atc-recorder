@@ -24,14 +24,27 @@ class ConfigurationServiceImpl(
     val udpRecordFolderRepository: UdpRecordFolderRepository
 ) : ConfigurationService {
 
-    override fun addUdpRecordAddress(udpRecordAddress: UdpRecordAddress) {
-        udpRecordAddressRepository.save(udpRecordAddress)
+    override fun addUdpRecordAddress(udpRecordAddress: UdpRecordAddress): UdpRecordAddress {
+        val newAddress = udpRecordAddressRepository.save(udpRecordAddress)
 
         GlobalScope.async {
             playbackUseCase.stop()
             recorderUseCase.configurationDidChange()
             packetsSendUseCase.configurationDidChange()
         }
+
+        return newAddress
+    }
+
+    override fun patchUdpRecordAddress(udpRecordAddress: UdpRecordAddress): UdpRecordAddress {
+        if(udpRecordAddress.id != null) {
+            udpRecordAddressRepository.deleteById(udpRecordAddress.id)
+        }
+        return udpRecordAddressRepository.save(udpRecordAddress)
+    }
+
+    override fun deleteUdpRecordAddress(id: Long) {
+        udpRecordAddressRepository.deleteById(id)
     }
 
     override fun findAllUdpRecordAddress(): List<UdpRecordAddress> =

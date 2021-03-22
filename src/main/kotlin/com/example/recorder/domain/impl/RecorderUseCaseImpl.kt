@@ -46,10 +46,14 @@ class RecorderUseCaseImpl(
 
     override suspend fun stop(): Unit = coroutineScope {
         handler?.breakLoop()
+        handler = null
     }
 
     override suspend fun configurationDidChange() = coroutineScope {
-        stop()
+        if (handler != null) {
+            stop()
+            start()
+        }
     }
 
     override fun findHardwareDevices(): List<RecordDevice> =
@@ -71,7 +75,7 @@ class RecorderUseCaseImpl(
     suspend fun launchHandler() = coroutineScope {
         launch(dispatcher) {
             handler?.loop(
-                100,
+                -1,
             ) { packet: Packet ->
                 val udpPacket = UdpPacket.create(packet, Date())
                 packetCatchHandler?.let { it(udpPacket) }
