@@ -1,6 +1,7 @@
 package com.example.recorder.domain.impl
 
 import com.example.recorder.domain.DataHandlerUseCase
+import com.example.recorder.model.RawPacket
 import com.example.recorder.model.UdpPacket
 import com.example.recorder.repository.UdpRecordFolderRepository
 import com.example.recorder.utils.extensions.hexStringToByteArray
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import kotlin.io.use
 
@@ -35,10 +37,30 @@ class DataHandlerUseCaseImpl(
         }
     }
 
-    override fun readBatch(fromDate: Date): List<UdpPacket> {
+    override fun readDump(fromDate: Date, toDate: Date): List<RawPacket> {
+        var packets = mutableListOf<RawPacket>()
+        var newFromDate = Date(fromDate.time)
+
+        while (newFromDate.before(toDate)) {
+
+            val batch = readRawBatch(newFromDate)
+            packets.addAll(batch)
+
+            newFromDate = Date(newFromDate.time + millisecondsStep)
+        }
+
+        return packets
+    }
+
+    override fun readBatch(fromDate: Date): List<UdpPacket> =
+        readRawBatch(fromDate).map {
+            UdpPacket.create(it.byteArray, it.timestamp)
+        }
+
+    private fun readRawBatch(fromDate: Date): List<RawPacket> {
         val rootFolder = udpRecordFolderRepository.find().folder
         val fileName = makeFileName(fromDate)
-        var packets = mutableListOf<UdpPacket>()
+        var packets = mutableListOf<RawPacket>()
         File(rootFolder).walkTopDown().forEach {
             if (it.name == fileName) {
                 val newPackets = decodeUdpFile(it)
@@ -48,7 +70,7 @@ class DataHandlerUseCaseImpl(
         return packets
     }
 
-    private fun decodeUdpFile(file: File): List<UdpPacket> =
+    private fun decodeUdpFile(file: File): List<RawPacket> =
         file
             .bufferedReader()
             .readLines()
@@ -56,7 +78,7 @@ class DataHandlerUseCaseImpl(
                 val bytesAndDate = it.split(" ")
                 val bytes = bytesAndDate[0].hexStringToByteArray()
                 val date = Date(bytesAndDate[1].toLong())
-                UdpPacket.create(bytes, date)
+                RawPacket(bytes, date)
             }
 
     private fun makeFileName(date: Date): String {

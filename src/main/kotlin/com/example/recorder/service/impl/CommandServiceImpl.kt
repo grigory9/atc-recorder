@@ -1,23 +1,22 @@
 package com.example.recorder.service.impl
 
-import com.example.recorder.domain.PacketsSendUseCase
-import com.example.recorder.domain.DataHandlerUseCase
+import com.example.recorder.domain.*
 import com.example.recorder.model.PlaybackStartOptions
-import com.example.recorder.domain.PlaybackUseCase
-import com.example.recorder.domain.RecorderUseCase
+import com.example.recorder.model.PlaybackDumpOptions
 import com.example.recorder.repository.UdpRecordAddressRepository
 import com.example.recorder.service.CommandService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class CommandServiceImpl(
-    val addressRepository: UdpRecordAddressRepository,
     val recorderUseCase: RecorderUseCase,
     val playbackUseCase: PlaybackUseCase,
     val dataHandlerUseCase: DataHandlerUseCase,
-    val packetsSendUseCase: PacketsSendUseCase
+    val packetsSendUseCase: PacketsSendUseCase,
+    val pcapDumpUseCase: PcapDumpUseCase
 ) : CommandService {
 
     override fun startRecord() {
@@ -39,6 +38,11 @@ class CommandServiceImpl(
             playbackUseCase.sendPacketsCallback = { packetsSendUseCase.sendPackets(it) }
             playbackUseCase.start(options)
         }
+    }
+
+    override fun dump(options: PlaybackDumpOptions) {
+        pcapDumpUseCase.readPacketDumpCallback = { to: Date, from: Date -> dataHandlerUseCase.readDump(to, from) }
+        return pcapDumpUseCase.getDump(options.fromDate, options.toDate)
     }
 
     override fun stopPlayback() {

@@ -31,3 +31,6 @@ jdk*/
 # IDEA And gradle
 .idea/*
 .gradle/*
+
+# Artifacts
+UDPRecordedData*

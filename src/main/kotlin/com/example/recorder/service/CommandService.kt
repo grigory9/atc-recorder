@@ -1,5 +1,6 @@
 package com.example.recorder.service
 
+import com.example.recorder.model.PlaybackDumpOptions
 import com.example.recorder.model.PlaybackStartOptions
 
 interface CommandService {
@@ -10,4 +11,5 @@ interface CommandService {
     fun startPlayback(options: PlaybackStartOptions)
     fun stopPlayback()
 
+    fun dump(options: PlaybackDumpOptions)
 }
