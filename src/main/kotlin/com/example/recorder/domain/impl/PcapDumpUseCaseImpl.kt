@@ -2,6 +2,7 @@ package com.example.recorder.domain.impl
 
 import com.example.recorder.domain.PcapDumpUseCase
 import com.example.recorder.model.RawPacket
+import com.example.recorder.model.UdpPacket
 import org.pcap4j.core.Pcaps
 import org.pcap4j.packet.namednumber.DataLinkType
 import org.springframework.stereotype.Component
@@ -16,7 +17,7 @@ class PcapDumpUseCaseImpl: PcapDumpUseCase {
 
     override fun getDump(fromDate: Date, toDate: Date): ByteArray {
 
-        val handler = Pcaps.openDead(DataLinkType.RAW, 65535)
+        val handler = Pcaps.openDead(DataLinkType.EN10MB, 65535)
         val currentDate = Date().time
         val pathname = "/tmp/$currentDate"
         val pcapDump = handler.dumpOpen(pathname)
@@ -24,7 +25,8 @@ class PcapDumpUseCaseImpl: PcapDumpUseCase {
         readPacketDumpCallback?.let {
             it(fromDate, toDate)
         }?.forEach { packet -> Unit
-            pcapDump.dumpRaw(packet.byteArray, Timestamp(packet.timestamp.time))
+            val udpPacket = UdpPacket.create(packet.byteArray, packet.timestamp)
+            pcapDump.dump(udpPacket.pcapPacket, Timestamp(packet.timestamp.time))
         }
 
         pcapDump.close()

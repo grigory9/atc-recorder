@@ -12,7 +12,8 @@ data class UdpPacket(
     val destinationPort: Int,
     val byteArray: ByteArray,
     val contentBytes: ByteArray,
-    val date: Date
+    val date: Date,
+    var pcapPacket: Packet
 ) {
     companion object Builder {
         fun create(byteArray: ByteArray, date: Date): UdpPacket {
@@ -40,7 +41,8 @@ data class UdpPacket(
                         udp.header.dstPort.valueAsInt(),
                         packet.rawData,
                         udp.payload.rawData,
-                        date
+                        date,
+                        packet
                     )
                 } else {
                     throw Exception("Cannot map payload to UdpPacket")
