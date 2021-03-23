@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.HttpStatus.OK
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -33,7 +34,7 @@ class PlaybackController(
     //endregion
     fun start(@RequestBody dto: PlaybackStartOptionsDto) = service.startPlayback(mapper.map(dto))
 
-    @PostMapping("dump")
+    @PostMapping("dump", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
     @ResponseStatus(OK)
     //region Swagger
     @Operation(summary = "Start playback", description = "Start playback", tags = ["start", "playback"])

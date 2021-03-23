@@ -7,7 +7,7 @@ import java.util.*
 
 interface PcapDumpUseCase {
 
-    fun getDump(fromDate: Date, toDate: Date)
+    fun getDump(fromDate: Date, toDate: Date): ByteArray
 
     var readPacketDumpCallback: ((Date, Date) -> List<RawPacket>)?
 }

@@ -40,7 +40,7 @@ class CommandServiceImpl(
         }
     }
 
-    override fun dump(options: PlaybackDumpOptions) {
+    override fun dump(options: PlaybackDumpOptions): ByteArray {
         pcapDumpUseCase.readPacketDumpCallback = { to: Date, from: Date -> dataHandlerUseCase.readDump(to, from) }
         return pcapDumpUseCase.getDump(options.fromDate, options.toDate)
     }

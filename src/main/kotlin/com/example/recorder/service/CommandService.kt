@@ -11,5 +11,5 @@ interface CommandService {
     fun startPlayback(options: PlaybackStartOptions)
     fun stopPlayback()
 
-    fun dump(options: PlaybackDumpOptions)
+    fun dump(options: PlaybackDumpOptions): ByteArray
 }
